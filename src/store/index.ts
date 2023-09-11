@@ -1,32 +1,32 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import userReducer, { setUser } from './slice/userSlice';
+import userReducer, { setUser, removeUser } from './slice/userSlice';
+import { api } from "./slice/apiSlice"; 
+import tickersReducer from './slice/tickersSlice'; 
 
-// Получите токен пользователя из localStorage
 const userToken = localStorage.getItem('userToken');
 const userEmail = localStorage.getItem('userEmail');
 const userId = localStorage.getItem('userId');
 
-// Инициализируйте начальное состояние пользователя
-const initialUserState = {
-  email: userEmail || null,
-  token: userToken || null,
-  id: userId || null,
-};
-
-// Создайте Redux-стор с начальным состоянием пользователя
 export const store = configureStore({
   reducer: {
     user: userReducer,
+    tickers: tickersReducer,
+    [api.reducerPath]: api.reducer, 
   },
-  middleware: [...getDefaultMiddleware()],
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
   preloadedState: {
-    user: initialUserState,
+    user: {
+      email: userEmail || null,
+      token: userToken || null,
+      id: userId || null,
+    },
   },
 });
 
-// Если токен присутствует в localStorage, обновите Redux-состояние с помощью setUser
 if (userToken) {
   store.dispatch(setUser({ email: userEmail || '', id: userId || '', token: userToken }));
+} else {
+  store.dispatch(removeUser());
 }
 
 export type AppDispatch = typeof store.dispatch;

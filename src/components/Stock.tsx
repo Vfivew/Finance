@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios, { AxiosResponse } from 'axios';
+import { apiKey } from '../store/slice/apiSlice';
 
 const Stock: React.FC = () => {
   const [data, setData] = useState<any>(null);
-  const [tickerInput, setTickerInput] = useState<string>('META'); // Тикер "META" по умолчанию
-  const [dateInput, setDateInput] = useState<string>('2023-01-09'); // Дата по умолчанию
-  const apiKey = 'JkhLUe7CKK8zbSUp55fa6O7VK5uPtdM2';
+  const [tickerInput, setTickerInput] = useState<string>('META'); 
+  const [dateInput, setDateInput] = useState<string>('2023-01-09'); 
+
 
   const fetchData = async () => {
     try {
