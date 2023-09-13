@@ -6,7 +6,9 @@ import { removeUser } from '../store/slice/userSlice';
 import { Navigate } from 'react-router-dom'; 
 import { Link } from 'react-router-dom';
 import UserStock from '../components/UserStock'
-import Stock from '../components/Stock';
+import { resetTicker } from '../store/slice/tickersSlice';
+import Stock from '../components/StockDetails';
+import StockExample from '../components/StockExample'
 
 const HomePage = () => {
     const dispatch = useDispatch();
@@ -15,6 +17,7 @@ const HomePage = () => {
 
     const handleLogout = () => {
         dispatch(removeUser());
+        dispatch(resetTicker());
         navigate('/login');
     };
 
@@ -29,7 +32,8 @@ const HomePage = () => {
                 <button><Link  to="/addstock">Додати акції</Link></button>
             </section>
             <section>
-                 <UserStock/>
+                <UserStock />
+                <StockExample/>
             </section>
         </section>
         

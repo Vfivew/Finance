@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
-import { useAppDispatch,useAppSelector } from '../hooks/redux-hooks';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
 import { getDataFirebase } from '../services/getDataFirebase';
-import {deleteDataFirebase} from '../services/deleteDataFirebase'
+import { deleteDataFirebase } from '../services/deleteDataFirebase';
 import { setTickers, updatePreviousDayStockPrice, removeTicker } from '../store/slice/tickersSlice';
 import { getStockPriceForPreviousWorkday } from '../hooks/getStockPriceForPreviousWorkday';
 import { getPreviousWeekday } from '../utils/getPreviousWeekday';
+import { Link } from 'react-router-dom';
+import Timer from './Timer'
 
 interface Ticker {
   name: string;
@@ -26,7 +28,9 @@ const UserStock = () => {
       try {
         if (!isDataLoaded) {
           const tickersData = await getDataFirebase(userEmail);
-
+          if (tickersData.length === 0) {
+            return;
+          }
           const stockPricePromises = tickersData.map(async (ticker) => {
             const StockPriceForPreviousWorkday = await getStockPriceForPreviousWorkday(
               ticker.ticker,
@@ -39,78 +43,82 @@ const UserStock = () => {
                   previousDayStockPrice: StockPriceForPreviousWorkday,
                 })
               );
-
-              const updatedTicker = {
-                ...ticker,
-                previousDayStockPrice: StockPriceForPreviousWorkday,
-              };
-
-              return updatedTicker;
             } else {
-              console.warn(`Цена акции для ${ticker.ticker} равна null.`);
-              return ticker;
+              console.warn(`Ціна акції для ${ticker.ticker} рівна null.`);
             }
+            return {
+              ...ticker,
+              previousDayStockPrice: StockPriceForPreviousWorkday || ticker.previousDayStockPrice,
+            };
           });
 
-          const updatedTickersData = await Promise.all(stockPricePromises); 
-          console.log(updatedTickersData)
+          const updatedTickersData = await Promise.all(stockPricePromises);
+          console.log(updatedTickersData);
 
           dispatch(setTickers(updatedTickersData));
-        } else {
-          for (const ticker of tickers) {
-            if (typeof ticker.previousDayStockPrice === 'undefined') {
-              const StockPriceForPreviousWorkday = await getStockPriceForPreviousWorkday(
-                ticker.ticker,
-                lastData
-              );
-              if (StockPriceForPreviousWorkday !== null) {
-                dispatch(
-                  updatePreviousDayStockPrice({
-                    ticker: ticker.ticker,
-                    previousDayStockPrice: StockPriceForPreviousWorkday,
-                  })
-                );
-              } else {
-                console.warn(`Цена акции для ${ticker.ticker} равна null.`);
-              }
-            }
-          }
         }
       } catch (error) {
-        console.error('Ошибка при загрузке данных из Firebase:', error);
+        console.error('Помилка при завантажені даних з Firebase:', error);
       }
     }
 
     fetchData();
-  }, [dispatch, userEmail, isDataLoaded, tickers]);
 
-const handleRemoveTicker = async (ticker: Ticker) => {
-  try {
-    await deleteDataFirebase(ticker.ticker, userEmail);
-    dispatch(removeTicker(ticker.ticker));
-    console.log(tickers)
-  } catch (error) {
-    console.error('Ошибка при удалении акции:', error);
-  }
-  console.log(tickers)
-};
-console.log(tickers)
+    const timer = setTimeout(() => {
+      updatePreviousDayPrices();
+    }, 60000);
+
+    return () => clearTimeout(timer);
+  }, [dispatch, userEmail, isDataLoaded, tickers, lastData]);
+
+  const updatePreviousDayPrices = async () => {
+    for (const ticker of tickers) {
+      if (typeof ticker.previousDayStockPrice === 'undefined') {
+        const StockPriceForPreviousWorkday = await getStockPriceForPreviousWorkday(
+          ticker.ticker,
+          lastData
+        );
+        if (StockPriceForPreviousWorkday !== null) {
+          dispatch(
+            updatePreviousDayStockPrice({
+              ticker: ticker.ticker,
+              previousDayStockPrice: StockPriceForPreviousWorkday,
+            })
+          );
+        } else {
+          console.warn(`Ціна акциї для ${ticker.ticker} рівна null.`);
+        }
+      }
+    }
+  };
+
+  const handleRemoveTicker = async (ticker: Ticker) => {
+    try {
+      await deleteDataFirebase(ticker.ticker, userEmail);
+      dispatch(removeTicker(ticker.ticker));
+    } catch (error) {
+      console.error('Помилка при видаленні акції:', error);
+    }
+  };
 
   return (
     <div>
+        <Timer
+        initialSeconds={60} 
+        />
       <h1>Информация о тикерах</h1>
-      <ul>
         {tickers.map((ticker, index) => (
-          <li key={index}>
-            <p>Имя: {ticker.name}</p>
-            <p>Тикер: {ticker.ticker}</p>
-            <p>Дата: {ticker.selectedDate}</p>
-            <p>Цена акции: {ticker.stockPrice}</p>
-            <p>Цена на предыдущий рабочий день: {ticker.previousDayStockPrice}</p>
-            <button onClick={() => handleRemoveTicker(ticker)}>Удалить акцию</button>
-          </li>
-        ))}
-      </ul>
+            <li key={index}>
+              <Link to={`/stock/${ticker.ticker}`}>
+                <p>Імя: {ticker.name}</p>
+                <p>Тікер: {ticker.ticker}</p>
+                <p>Дата: {ticker.selectedDate}</p>
+                <p>Ціна акції: {ticker.stockPrice}</p>
+                <p>Ціна закриття останнього торгово дня: {ticker.previousDayStockPrice}</p>
+              </Link>
+              <button onClick={() => handleRemoveTicker(ticker)}>Видалити акцію</button>
+            </li>
+          ))}
     </div>
   );
 };

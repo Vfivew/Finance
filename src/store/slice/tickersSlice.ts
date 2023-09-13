@@ -17,6 +17,9 @@ const tickersSlice = createSlice({
     setTickers: (state, action: PayloadAction<Ticker[]>) => {
       return action.payload;
     },
+    resetTicker: (state) => {
+      return initialState;
+    },
     addTicker: (state, action: PayloadAction<Ticker>) => {
       state.push(action.payload);
     },
@@ -37,6 +40,6 @@ const tickersSlice = createSlice({
   },
 });
 
-export const { setTickers, addTicker, updatePreviousDayStockPrice, removeTicker } = tickersSlice.actions;
+export const { setTickers,resetTicker, addTicker, updatePreviousDayStockPrice, removeTicker } = tickersSlice.actions;
 
 export default tickersSlice.reducer;

@@ -7,7 +7,7 @@ export async function getStockPriceForPreviousWorkday(ticker: string, selectedDa
     const StockPriceForPreviousWorkday = response.data.results[0].c;
     return StockPriceForPreviousWorkday;
   } catch (error) {
-    console.error('Ошибка при получении цены акции:', error);
+    console.error('Помилка при отриманні інформації:', error);
     return null;
   }
 }

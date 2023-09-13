@@ -4,6 +4,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import { useAuth } from './hooks/use-auth';
 import AddStock from './components/AddStock';
+import StockDetails from './components/StockDetails'
 
 function PrivateRoute({ element }: any) {
   const { isAuth } = useAuth();
@@ -20,6 +21,10 @@ function App() {
       <Route
         path="/addstock"
         element={<PrivateRoute element={<AddStock />} />} 
+      />
+      <Route
+        path="/stock/:ticker"
+        element={<PrivateRoute element={<StockDetails/>} />} 
       />
     </Routes>
   );
