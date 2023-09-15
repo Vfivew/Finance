@@ -1,26 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface Ticker {
-  name: string;
-  ticker: string;
-  selectedDate: string;
-  stockPrice: number;
-  previousDayStockPrice?: number;
-}
+import { Stock } from '../../models/Stock';
 
-const initialState: Ticker[] = [];
+const initialState: Stock[] = [];
 
 const tickersSlice = createSlice({
   name: 'tickers',
   initialState,
   reducers: {
-    setTickers: (state, action: PayloadAction<Ticker[]>) => {
+    setTickers: (state, action: PayloadAction<Stock[]>) => {
       return action.payload;
     },
     resetTicker: (state) => {
       return initialState;
     },
-    addTicker: (state, action: PayloadAction<Ticker>) => {
+    addTicker: (state, action: PayloadAction<Stock>) => {
       state.push(action.payload);
     },
     updatePreviousDayStockPrice: (

@@ -7,18 +7,13 @@ const api = createApi({
   endpoints: (builder) => ({
     getTickerInfo: builder.query({
       query: (ticker) => `/vX/reference/tickers/${ticker}?apiKey=${apiKey}`,
-
     }),
-    getStockPrice: builder.query({
-      query: ({ ticker, selectedDate }) =>
-        `/v2/aggs/ticker/${ticker}/range/1/day/${selectedDate}/${selectedDate}?unadjusted=true&apiKey=${apiKey}`,
-    }),
-    getStockPricesForLastYear: builder.query({
+    getStockPricesForDate: builder.query({
       query: ({ ticker, endDate, startDate }) =>
         `/v2/aggs/ticker/${ticker}/range/1/day/${startDate}/${endDate}?unadjusted=true&apiKey=${apiKey}`,
     }),
   }),
 });
 
-export const { useGetTickerInfoQuery, useGetStockPriceQuery, useGetStockPricesForLastYearQuery  } = api;
-export {api, apiKey}
+export const { useGetTickerInfoQuery, useGetStockPricesForDateQuery  } = api;
+export { api, apiKey }

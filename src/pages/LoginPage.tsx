@@ -1,13 +1,13 @@
-import { Login } from '../components/Login';
 import { Link } from 'react-router-dom';
+import { Login } from '../components/Login';
 
-const LoginPage = () => {
+const LoginPage:React.FC = () => {
     return (
         <div>
             <h1>Login</h1>
-            <Login />
+                <Login />
             <p>
-                Or <Link to="/register">register</Link>
+                Or <Link to="/register">Register</Link>
             </p>
         </div>
     )

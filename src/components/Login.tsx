@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { setUser } from '../store/slice/userSlice';
 import { Form } from './Form';
 
-const Login: React.FC = () => {
+const Login: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
@@ -36,9 +36,9 @@ const Login: React.FC = () => {
           error.code === 'auth/wrong-password' ||
           error.code === 'auth/user-not-found'
         ) {
-          setError('Неверний логін або пароль.');
+          setError('Invalid login or password.');
         } else {
-          setError('Помилка входу.');
+          setError('Login error try later.');
         }
       });
   };

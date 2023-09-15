@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useGetStockPricesForLastYearQuery } from '../store/slice/apiSlice';
+import { useGetStockPricesForDateQuery } from '../store/slice/apiSlice';
 import { getPreviousWeekday } from '../utils/getPreviousWeekday';
 import { calculateStartDate } from '../utils/calculateData';
 import { useAppSelector } from '../hooks/redux-hooks';
@@ -10,12 +10,12 @@ interface StockPriceItem {
   c: any;
 }
 
-const StockDetails: React.FC = () => {
+const StockDetails: FC = () => {
   const { ticker } = useParams<{ ticker: string }>();
   const tickers = useAppSelector((state) => state.tickers);
   const endDate = getPreviousWeekday();
   const [startDate, setStartDate] = useState<string>(calculateStartDate(endDate));
-  const { data: stockPrices, error: stockPricesError, refetch } = useGetStockPricesForLastYearQuery({ ticker, endDate, startDate });
+  const { data: stockPrices, error: stockPricesError, refetch } = useGetStockPricesForDateQuery({ ticker, endDate, startDate });
 
   const handleStartDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setStartDate(e.target.value);

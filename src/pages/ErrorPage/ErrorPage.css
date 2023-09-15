@@ -1,0 +1,25 @@
+.error-block {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 2em; 
+    background-color:var(--fourth-color)
+}
+
+.error-block h2 {
+    font-size: var(--thirty-size);
+    color:red;
+}
+
+.error-block p{
+    font-size: var(--secondary-size);
+}
+
+.error-block a{
+    font-weight: bold;
+}
+
+.error-block a:hover,
+.error-block a:focus {
+    color:var(--primary-color);
+}

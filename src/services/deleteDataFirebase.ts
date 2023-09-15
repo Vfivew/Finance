@@ -9,7 +9,7 @@ const deleteDataFirebase = async ( tickerToDelete: string, userEmail: string) =>
     const indexToDelete = tickersData.findIndex((ticker) => ticker.ticker === tickerToDelete);
 
     if (indexToDelete === -1) {
-      console.log(`Тикер с именем ${tickerToDelete} не найден в данных Firestore`);
+      console.log(`Ticker name ${tickerToDelete} not found in the Firestore`);
       return;
     }
 
@@ -18,9 +18,9 @@ const deleteDataFirebase = async ( tickerToDelete: string, userEmail: string) =>
     const userDocRef = doc(database, 'Finance', userEmail);
     await updateDoc(userDocRef, { tickers: tickersData });
 
-    console.log(`Тикер с именем ${tickerToDelete} успешно удален из Firestore`);
+    console.log(`Ticker name ${tickerToDelete} successfully removed from Firestore`);
   } catch (error) {
-    console.error('Ошибка при удалении тикера из Firestore:', error);
+    console.error('Deleting Error the ticker from Firestore:', error);
     throw error;
   }
 };

@@ -1,15 +1,8 @@
 import { doc, getDoc } from 'firebase/firestore';
 import { database } from '../firebase';
+import { Stock } from '../models/Stock';
 
-export interface TickerData {
-  name: string;
-  selectedDate: string;
-  stockPrice: number;
-  ticker: string;
-  previousDayStockPrice?: any; 
-}
-
-const getDataFirebase = async (userEmail: string): Promise<TickerData[]> => {
+const getDataFirebase = async (userEmail: string): Promise<Stock[]> => {
   try {
     const userDocRef = doc(database, 'Finance', userEmail);
     const userDocSnap = await getDoc(userDocRef);
@@ -22,7 +15,7 @@ const getDataFirebase = async (userEmail: string): Promise<TickerData[]> => {
       return []; 
     }
   } catch (error) {
-    console.error('Ошибка при получении данных из Firebase:', error);
+    console.error('Error while receiving data from Firebase:', error);
     return []; 
   }
 };

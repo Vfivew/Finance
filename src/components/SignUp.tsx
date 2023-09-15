@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { Form } from './Form';
 import { setUser } from '../store/slice/userSlice';
 
-const SignUp = () => {
+const SignUp: FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
@@ -31,9 +31,9 @@ const SignUp = () => {
       .catch((error) => {
         console.error(error);
         if (error.code === 'auth/email-already-in-use') {
-          setError('Дана поштова адреса вже зареєстрована.');
+          setError('This postal address is already registered.');
         } else {
-          setError('Помилка реєстрації.');
+          setError('Registration error, try later.');
         }
       });
   };

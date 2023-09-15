@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import { getAuth, sendPasswordResetEmail, fetchSignInMethodsForEmail } from 'firebase/auth';
 
 interface ResetPasswordFormProps {
@@ -17,7 +17,7 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({ onResetPassword }) => {
       const methods = await fetchSignInMethodsForEmail(auth, email);
 
       if (methods.length === 0) {
-        setError('Користувач з цим email не знайдений.');
+        setError('User with this email was not found.');
         return;
       }
 
@@ -25,25 +25,25 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({ onResetPassword }) => {
       setResetSent(true);
       setError(null);
     } catch (error) {
-      setError('Помилки при відправці запиту на оновлення пароля.');
+      setError('Errors when sending a password update request.');
     }
   };
 
   return (
     <div>
       {resetSent ? (
-        <p>Інструкція по оновленню паролю відправлена на ваш email.</p>
+        <p>Password update instructions have been sent to your email.</p>
       ) : (
         <div>
-          <p>Введіть ваш email для оновлення паролю.</p>
+          <p>Enter your email to update your password.</p>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="email"
           />
-          <button onClick={handleResetPassword}>Оновити пароль</button>
-          <button onClick={onResetPassword}>Скасувати</button>
+          <button onClick={handleResetPassword}>Сhange password</button>
+          <button onClick={onResetPassword}>Cancel</button>
           {error && <p>{error}</p>}
         </div>
       )}

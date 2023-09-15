@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import ResetPasswordForm from './ResetPasswordForm'; 
 
 interface FormProps {
@@ -36,7 +36,7 @@ const Form: FC<FormProps> = ({ title, isRegistrationPage, handleClick }) => {
 
   const validatePasswords = (password: string, repeatedPassword: string) => {
     if (isRegistrationPage && password !== repeatedPassword) {
-      setError('Паролі не співпадають');
+      setError('Passwords do not match');
     } else {
       setError(null);
     }
@@ -46,7 +46,7 @@ const Form: FC<FormProps> = ({ title, isRegistrationPage, handleClick }) => {
     e.preventDefault();
 
     if (isRegistrationPage && pass !== confirmPass) {
-      setError('Паролі не співпадають');
+      setError('Passwords do not match');
     } else {
       setError(null);
       handleClick(email, pass);
@@ -88,7 +88,7 @@ const Form: FC<FormProps> = ({ title, isRegistrationPage, handleClick }) => {
         <button type="submit" disabled={isRegistrationPage && pass !== confirmPass}>
           {title}
         </button>
-        <button onClick={handleResetPasswordClick}>Забули пароль?</button>
+        <button onClick={handleResetPasswordClick}>Forgot password?</button>
       </form>
       )}
     </div>

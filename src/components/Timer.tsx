@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 
 interface TimerProps {
   initialSeconds: number;
 }
 
-const Timer: React.FC<TimerProps> = ({ initialSeconds}) => {
+const Timer: FC<TimerProps> = ({ initialSeconds}) => {
   const [seconds, setSeconds] = useState(initialSeconds);
   const [displayTimer, setDisplayTimer] = useState(true);
 
