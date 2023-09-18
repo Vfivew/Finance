@@ -30,20 +30,23 @@ const ResetPasswordForm: FC<ResetPasswordFormProps> = ({ onResetPassword }) => {
   };
 
   return (
-    <div>
+    <div className="bg-thirty py-10 px-8 pb-10 rounded-xl shadow-md border border-white">
       {resetSent ? (
         <p>Password update instructions have been sent to your email.</p>
       ) : (
-        <div>
-          <p>Enter your email to update your password.</p>
-          <input
+        <div className='flex flex-col items-center justify-center'>
+          <p className='m-2'>Enter your email to update your password.</p>
+            <input
+            className='w-full p-2 m-2 rounded border-2 border-darkBlue focus:outline-none focus:ring focus:border-blue-200'
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="email"
-          />
-          <button onClick={handleResetPassword}>Сhange password</button>
-          <button onClick={onResetPassword}>Cancel</button>
+            />
+          <div className='flex items-center justify-center'>
+            <button className='base-btn m-2' onClick={handleResetPassword}>Сhange password</button>
+            <button className='base-btn m-2' onClick={onResetPassword}>Cancel</button>
+          </div>
           {error && <p>{error}</p>}
         </div>
       )}

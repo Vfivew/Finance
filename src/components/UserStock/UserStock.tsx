@@ -1,15 +1,16 @@
 import { FC,useState, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../hooks/redux-hooks';
-import { getDataFirebase } from '../services/getDataFirebase';
-import { deleteDataFirebase } from '../services/deleteDataFirebase';
-import { setTickers, updatePreviousDayStockPrice, removeTicker } from '../store/slice/tickersSlice';
-import { getStockPriceForPreviousWorkday } from '../utils/getStockPriceForPreviousWorkday';
-import { getPreviousWeekday } from '../utils/getPreviousWeekday';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+import { getDataFirebase } from '../../services/getDataFirebase';
+import { deleteDataFirebase } from '../../services/deleteDataFirebase';
+import { setTickers, updatePreviousDayStockPrice, removeTicker } from '../../store/slice/tickersSlice';
+import { getStockPriceForPreviousWorkday } from '../../utils/getStockPriceForPreviousWorkday';
+import { getPreviousWeekday } from '../../utils/getPreviousWeekday';
 import { Link } from 'react-router-dom';
-import { Stock } from '../models/Stock';
+import { Stock } from '../../models/Stock';
+import {calculateProfitOrLoss} from './calculateProfitOrLoss'
 
-import Loading from './Loading/Loading';
-import Timer from './Timer'
+import Loading from '../Loading/Loading';
+import Timer from '../Timer'
 
 const UserStock: FC = () => {
   const [isRemoving, setIsRemoving] = useState(false);
@@ -106,30 +107,50 @@ const UserStock: FC = () => {
   };
 
   return (
-    <div>
+    <section>
       <Timer initialSeconds={60} />
-      <h1>Информация о тикерах</h1>
-      {loading ? (
-        <Loading /> // Показываем индикатор загрузки данных
-      ) : (
-        tickers.map((ticker, index) => (
-          <li key={index}>
-            <Link to={`/stock/${ticker.ticker}`}>
-              <p>Імя: {ticker.name}</p>
-              <p>Тікер: {ticker.ticker}</p>
-              <p>Дата: {ticker.selectedDate}</p>
-              <p>Ціна акції: {ticker.stockPrice}</p>
-              <p>Ціна закриття останнього торгово дня: {ticker.previousDayStockPrice}</p>
-            </Link>
-            {isRemoving ? (
+      <h1 className='m-2'>Information about tickers</h1>
+      <div className="overflow-x-auto">
+        <table className='table-fixed w-full'>
+          <thead>
+            <tr>
+              <th className="w-10% border border-white">Name</th>
+              <th className="w-10% border border-white">Ticker</th>
+              <th className="w-10% border border-white">Date</th>
+              <th className="w-10% border border-white">Share price</th>
+              <th className="w-40% border border-white">The closing price of the last trading day</th>
+              <th className="w-10% border border-white">Profit</th>
+              <th className="w-10% border border-white">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
               <Loading />
             ) : (
-              <button onClick={() => handleRemoveTicker(ticker)}>Видалити акцію</button>
+              tickers.map((ticker, index) => (
+                <tr key={index}>
+                  <td className="border border-white py-2"><Link to={`/stock/${ticker.ticker}`}>{ticker.name}</Link></td>
+                  <td className="border border-white py-2">{ticker.ticker}</td>
+                  <td className="border border-white py-2">{ticker.selectedDate}</td>
+                  <td className="border border-white py-2">{ticker.stockPrice}$</td>
+                  <td className="border border-white py-2">{ticker.previousDayStockPrice}$</td>
+                  <td className={`border border-white py-2 ${isRemoving ? 'text-gray-500' : ''}`}>
+                    {calculateProfitOrLoss(ticker.stockPrice, ticker.previousDayStockPrice)}
+                  </td>
+                  <td className="border border-white py-2">
+                    {isRemoving ? (
+                      <Loading />
+                    ) : (
+                      <button onClick={() => handleRemoveTicker(ticker)}>Stop following</button>
+                    )}
+                  </td>
+                </tr>
+              ))
             )}
-          </li>
-        ))
-      )}
-    </div>
+          </tbody>
+        </table>
+      </div>
+    </section>
   );
 };
 

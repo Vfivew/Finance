@@ -6,7 +6,7 @@ import { Navigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { resetTicker } from '../store/slice/tickersSlice';
 
-import UserStock from '../components/UserStock'
+import UserStock from '../components/UserStock/UserStock'
 
 const HomePage:React.FC = () => {
     const dispatch = useDispatch();
@@ -20,15 +20,19 @@ const HomePage:React.FC = () => {
     };
 
     return isAuth ? (
-        <section>
-            <section>
-                <h1>Welcome</h1>
-                <button onClick={handleLogout}>Log out from {email}</button>
+        <section className='flex flex-col justify-center items-center m-1 w-full'>
+            <section className='flex justify-between w-full'>
+                <h1 className='text-size22 font-bold'>Welcome</h1>
+                <button
+                    className='base-btn'
+                    onClick={handleLogout}>Log out from {email}</button>
             </section>
-            <section>
-                <button><Link  to="/addstock">Add Stock</Link></button>
+            <section className='w-full m-2'>
+                <button
+                className='base-btn'
+                ><Link to="/addstock">Add Stock</Link></button>
             </section>
-            <section>
+            <section className='flex flex-col justify-center items-center w-full text-center'>
                 <UserStock />
             </section>
         </section>

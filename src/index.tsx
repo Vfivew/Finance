@@ -13,7 +13,9 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <App />
+        <div className="bg-main text-text p-4 h-screen w-full">
+          <App />
+        </div>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>,

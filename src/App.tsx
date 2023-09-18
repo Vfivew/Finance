@@ -1,8 +1,8 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from './hooks/useAuth';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-import { useAuth } from './hooks/useAuth';
 import AddStock from './components/AddStock/AddStock';
 import StockDetails from './components/StockDetails'
 import ErrorPage from './pages/ErrorPage/ErrorPage';

@@ -26,9 +26,9 @@ const Timer: FC<TimerProps> = ({ initialSeconds}) => {
 
   return (
     displayTimer ? (
-      <p>Дані оновляться через: {seconds} сек.</p>
+      <p>The data will be updated through: {seconds} sec.</p>
     ) : (
-      <p>Наступні дані будуть через хвилину</p>
+      <p>The next data will be in a minute</p>
     )
   );
 };

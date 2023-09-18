@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { Form } from './Form';
-import { setUser } from '../store/slice/userSlice';
+import { setUser } from '../../store/slice/userSlice';
 
 const SignUp: FC = () => {
   const dispatch = useDispatch();
@@ -40,7 +40,7 @@ const SignUp: FC = () => {
 
   return (
     <div>
-      <Form title="register" handleClick={handleRegister} isRegistrationPage={true}/>
+      <Form title="Register" handleClick={handleRegister} isRegistrationPage={true}/>
       {error && <p>{error}</p>}
     </div>
   );

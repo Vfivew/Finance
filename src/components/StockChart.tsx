@@ -25,14 +25,11 @@ const StockChart: FC<StockChartProps> = ({ data, previousDayStockPrice }) => {
 
     const ctx = document.getElementById('stockChart') as HTMLCanvasElement;
 
-    // Разделяем данные на два набора: до 107 и после 107
     const dataBefore = data.map((value) => (previousDayStockPrice !== null && value > previousDayStockPrice ? null : value));
     const dataAfter = data.map((value) => (previousDayStockPrice !== null && value <= previousDayStockPrice ? null : value));
 
-    // Найденные точки, которые должны быть соединены
     const connectingPoints: { index: number, value: number }[] = [];
 
-    // Обходим массив данных и проверяем пересечение с границей 107
     for (let i = 1; i < data.length; i++) {
       const currentValue = data[i];
       const previousValue = data[i - 1];
@@ -40,15 +37,13 @@ const StockChart: FC<StockChartProps> = ({ data, previousDayStockPrice }) => {
 
       if (threshold !== null) {
         if (currentValue > threshold && previousValue <= threshold) {
-          // Текущее значение пересекло границу 107 сверху
           connectingPoints.push({ index: i, value: currentValue });
         } else if (currentValue <= threshold && previousValue > threshold) {
-          // Текущее значение пересекло границу 107 снизу
           connectingPoints.push({ index: i, value: currentValue });
         }
       }
     }
-    // Добавляем найденные точки в оба набора данных
+
     connectingPoints.forEach((point) => {
       dataBefore[point.index] = point.value;
       dataAfter[point.index] = point.value;
@@ -56,36 +51,34 @@ const StockChart: FC<StockChartProps> = ({ data, previousDayStockPrice }) => {
 
     const datasets = [];
 
-    // Если previousDayStockPrice равен нулю или null, добавляем только один график
     if (previousDayStockPrice === 0 || previousDayStockPrice === null) {
       datasets.push({
-        label: 'График акций',
+        label: 'Stock graph',
         data: data,
-        borderColor: 'rgba(0, 0, 255, 1)', // Синий цвет
+        borderColor: 'rgba(0, 0, 255, 1)',
         borderWidth: 1,
         fill: false,
       });
     } else {
-      // В противном случае добавляем два набора данных
+
       datasets.push(
         {
-          label: 'Цены акций (до 107)',
+          label: 'Price',
           data: dataBefore,
-          borderColor: 'rgba(255, 0, 0, 1)', // Красный для значений до 107
+          borderColor: 'rgba(255, 0, 0, 1)', 
           borderWidth: 1,
           fill: false,
         },
         {
-          label: 'Цены акций (после 107)',
+          label: 'Price ',
           data: dataAfter,
-          borderColor: 'rgba(0, 255, 0, 1)', // Зеленый для значений после 107
+          borderColor: 'rgba(0, 255, 0, 1)',
           borderWidth: 1,
           fill: false,
         }
       );
     }
 
-    // Если previousDayStockPrice не равен null, добавляем горизонтальную линию
     if (previousDayStockPrice !== null) {
       datasets.push({
         label: 'Previous Day Price',
@@ -112,7 +105,7 @@ const StockChart: FC<StockChartProps> = ({ data, previousDayStockPrice }) => {
               color: 'rgba(0, 255, 251, 0.2)',
             },
             ticks: {
-              color: 'blue', // Цвет цифр по вертикали
+              color: 'blue', 
             },
           },
           x: {
@@ -120,14 +113,14 @@ const StockChart: FC<StockChartProps> = ({ data, previousDayStockPrice }) => {
               color: 'rgba(0, 255, 251, 0.2)',
             },
             ticks: {
-              color: 'blue', // Цвет цифр по горизонтали
+              color: 'blue', 
             },
           },
         },
         plugins: {
           title: {
             display: true,
-            text: 'График акций',
+            text: 'Stock graph',
             color: 'blue',
           },
           legend: {

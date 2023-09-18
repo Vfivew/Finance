@@ -89,7 +89,7 @@ const AddStock: FC = () => {
     if (tickerInput && selectedDate) {
       setIsQueryEnabled(true);
     }
-    setHasError(false); // Сбрасываем флаг ошибки при запросе
+    setHasError(false); 
     console.log(hasError);
     console.log('++');
     setStockPriceError(null)

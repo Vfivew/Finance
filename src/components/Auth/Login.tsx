@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { setUser } from '../store/slice/userSlice';
+import { setUser } from '../../store/slice/userSlice';
 import { Form } from './Form';
 
 const Login: FC = () => {
@@ -45,7 +45,7 @@ const Login: FC = () => {
 
   return (
     <div>
-      <Form title="sign in" handleClick={handleLogin} isRegistrationPage={false}/>
+      <Form title="Sign in" handleClick={handleLogin} isRegistrationPage={false}/>
       {error && <p>{error}</p>}
     </div>
   );

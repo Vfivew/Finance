@@ -1,16 +1,20 @@
 import { Link } from 'react-router-dom';
-import { Login } from '../components/Login';
+import { Login } from '../components/Auth/Login';
 
-const LoginPage:React.FC = () => {
-    return (
-        <div>
-            <h1>Login</h1>
-                <Login />
-            <p>
-                Or <Link to="/register">Register</Link>
-            </p>
-        </div>
-    )
-}
+const LoginPage: React.FC = () => {
+  return (
+    <div className="flex h-screen items-center justify-center">
+      <div className="flex flex-col items-center">
+        <Login />
+        <Link
+          className="base-btn mt-4"
+          to="/register"
+        >
+          Register
+        </Link>
+      </div>
+    </div>
+  );
+};
 
-export default LoginPage
+export default LoginPage;
