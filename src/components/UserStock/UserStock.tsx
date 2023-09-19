@@ -7,10 +7,11 @@ import { getStockPriceForPreviousWorkday } from '../../utils/getStockPriceForPre
 import { getPreviousWeekday } from '../../utils/getPreviousWeekday';
 import { Link } from 'react-router-dom';
 import { Stock } from '../../models/Stock';
-import {calculateProfitOrLoss} from './calculateProfitOrLoss'
 
+import ProfitOrLoss from './ProfitOrLoss';
+import SortStock from './SortStock';
 import Loading from '../Loading/Loading';
-import Timer from '../Timer'
+import Timer from './Timer'
 
 const UserStock: FC = () => {
   const [isRemoving, setIsRemoving] = useState(false);
@@ -45,7 +46,7 @@ const UserStock: FC = () => {
                 })
               );
             } else {
-              console.warn(`Ціна акції для ${ticker.ticker} рівна null.`);
+              //тут обробляв помилку, зараз прибрав
             }
             return {
               ...ticker,
@@ -54,7 +55,6 @@ const UserStock: FC = () => {
           });
 
           const updatedTickersData = await Promise.all(stockPricePromises);
-          console.log(updatedTickersData);
 
           dispatch(setTickers(updatedTickersData));
         }
@@ -88,7 +88,6 @@ const UserStock: FC = () => {
             })
           );
         } else {
-          console.warn(`Ціна акциї для ${ticker.ticker} рівна null.`);
         }
       }
     }
@@ -101,7 +100,6 @@ const UserStock: FC = () => {
       dispatch(removeTicker(ticker.ticker));
       setIsRemoving(false);
     } catch (error) {
-      console.error('Помилка при видаленні акції:', error);
       setIsRemoving(false);
     }
   };
@@ -109,7 +107,8 @@ const UserStock: FC = () => {
   return (
     <section>
       <Timer initialSeconds={60} />
-      <h1 className='m-2'>Information about tickers</h1>
+      <SortStock/>
+      <h1 className='font-bold text-size22 mt-2 mb-4'>Information about tickers</h1>
       <div className="overflow-x-auto">
         <table className='table-fixed w-full'>
           <thead>
@@ -125,21 +124,25 @@ const UserStock: FC = () => {
           </thead>
           <tbody>
             {loading ? (
-              <Loading />
+              <tr>
+                <td className="py-2 h-20">
+                  <Loading />
+                </td>
+              </tr>
             ) : (
               tickers.map((ticker, index) => (
                 <tr key={index}>
-                  <td className="border border-white py-2"><Link to={`/stock/${ticker.ticker}`}>{ticker.name}</Link></td>
-                  <td className="border border-white py-2">{ticker.ticker}</td>
-                  <td className="border border-white py-2">{ticker.selectedDate}</td>
-                  <td className="border border-white py-2">{ticker.stockPrice}$</td>
-                  <td className="border border-white py-2">{ticker.previousDayStockPrice}$</td>
-                  <td className={`border border-white py-2 ${isRemoving ? 'text-gray-500' : ''}`}>
-                    {calculateProfitOrLoss(ticker.stockPrice, ticker.previousDayStockPrice)}
+                  <td className="border border-white py-2 h-20  hover:text-first focus:text-first"><Link to={`/stock/${ticker.ticker}`}>{ticker.name}</Link></td>
+                  <td className="border border-white py-2 h-20 ">{ticker.ticker}</td>
+                  <td className="border border-white py-2 h-20 ">{ticker.selectedDate}</td>
+                  <td className="border border-white py-2 h-20 ">{ticker.stockPrice}$</td>
+                  <td className="border border-white py-2 h-20 ">{ticker.previousDayStockPrice}$</td>
+                  <td className={`border border-white py-2 h-20 ${isRemoving ? 'text-gray-500' : ''}`}>
+                    <ProfitOrLoss purchasePrice={ticker.stockPrice} currentPrice={ticker.previousDayStockPrice} />
                   </td>
-                  <td className="border border-white py-2">
+                  <td className="border border-white py-2 h-20 ">
                     {isRemoving ? (
-                      <Loading />
+                      <span><Loading /></span>
                     ) : (
                       <button onClick={() => handleRemoveTicker(ticker)}>Stop following</button>
                     )}

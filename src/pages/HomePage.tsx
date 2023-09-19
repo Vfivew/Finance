@@ -28,9 +28,12 @@ const HomePage:React.FC = () => {
                     onClick={handleLogout}>Log out from {email}</button>
             </section>
             <section className='w-full m-2'>
-                <button
-                className='base-btn'
-                ><Link to="/addstock">Add Stock</Link></button>
+                <Link to="/addstock">
+                    <button
+                        className='base-btn'
+                        >Add Stock
+                    </button>
+                </Link>
             </section>
             <section className='flex flex-col justify-center items-center w-full text-center'>
                 <UserStock />

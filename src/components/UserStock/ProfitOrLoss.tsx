@@ -1,4 +1,6 @@
-export const calculateProfitOrLoss = (purchasePrice: number, currentPrice?: number) => {
+import React from 'react';
+
+const ProfitOrLoss: React.FC<{ purchasePrice: number; currentPrice?: number }> = ({ purchasePrice, currentPrice }) => {
   if (typeof currentPrice === 'undefined') {
     return <span className="text-gray-500">Wait for data</span>;
   }
@@ -9,3 +11,5 @@ export const calculateProfitOrLoss = (purchasePrice: number, currentPrice?: numb
 
   return <span className={textColor}>{profitOrLoss.toFixed(2)}%</span>;
 };
+
+export default ProfitOrLoss;

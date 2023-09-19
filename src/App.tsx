@@ -4,7 +4,7 @@ import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import AddStock from './components/AddStock/AddStock';
-import StockDetails from './components/StockDetails'
+import StockDetails from './components/StockGraph/StockDetails'
 import ErrorPage from './pages/ErrorPage/ErrorPage';
 
 function PrivateRoute({ element }: any) {

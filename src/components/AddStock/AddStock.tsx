@@ -4,15 +4,12 @@ import { addDataFirebase } from '../../services/addDataFirebase';
 import { useAppSelector, useAppDispatch } from '../../hooks/redux-hooks';
 import { addTicker } from '../../store/slice/tickersSlice';
 import { getPreviousWeekday } from '../../utils/getPreviousWeekday';
+import { Link } from 'react-router-dom';
 import ErrorHandling from '../Error/ErrorHandling'; 
 import StockPriceInfo from './StockPriceInfo';
 import TickerInfo from './TickerInfo';
 import TickerInput from './TickerInput';
 import Loading from '../Loading/Loading'
-
-interface CustomError {
-  message: string;
-}
 
 const AddStock: FC = () => {
   const [tickerInput, setTickerInput] = useState<string>('');
@@ -23,7 +20,6 @@ const AddStock: FC = () => {
   const userEmail = useAppSelector((state) => state.user.email);
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [stockPriceError, setStockPriceError] = useState<CustomError | null>(null);
   const [hasError, setHasError] = useState<boolean>(false); 
 
   const { data: tickerInfo, error: tickerErrorQuery } = useGetTickerInfoQuery(tickerInput.toUpperCase(), {
@@ -42,17 +38,11 @@ const AddStock: FC = () => {
       refetchOnMountOrArgChange: true,
     }
   );
-  console.log(tickerInfo)
-  console.log(stockPriceInfo)
   useEffect(() => {
-    console.log('start effect');
     if (tickerErrorQuery || stockPriceErrorQuery) {
-      console.log('--');
       setHasError(true); 
-      console.log(hasError);
     }
     else if (tickerInfo && stockPriceInfo && stockPriceInfo.results) {
-      console.log("1th");
       setIsLoading(true);
       addDataFirebase({ results: tickerInfo.results, userEmail, selectedDate, stockPrice: stockPriceInfo.results[0].c })
         .then((result) => {
@@ -60,9 +50,7 @@ const AddStock: FC = () => {
           if (result.success) {
             setIsFollowing(result.isFollowing);
             setTrackedDate(result.trackedDate);
-            console.log("result.success");
             if (!result.isFollowing) {
-              console.log("result.folowwing");
               console.log(stockPriceInfo.results[stockPriceInfo.results.length - 1].c);
               const newTicker = {
                 name: tickerInfo.results.name,
@@ -77,7 +65,6 @@ const AddStock: FC = () => {
         })
         .catch((error) => {
           console.error('Error when adding data to Firebase:', error);
-          setStockPriceError({ message: error.message });
         })
         .finally(() => {
           setIsLoading(false);
@@ -90,14 +77,9 @@ const AddStock: FC = () => {
       setIsQueryEnabled(true);
     }
     setHasError(false); 
-    console.log(hasError);
-    console.log('++');
-    setStockPriceError(null)
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(hasError);
-    console.log("handleInputChange");
     if (e.target.type === 'text') {
       setTickerInput(e.target.value);
     } else if (e.target.type === 'date') {
@@ -108,37 +90,44 @@ const AddStock: FC = () => {
 
 return (
   <div>
-    <h1>Ticker information</h1>
-    <TickerInput
-      tickerInput={tickerInput}
-      selectedDate={selectedDate}
-      onInputChange={handleInputChange}
-      onGetTickerInfo={handleGetTickerInfo}
-    />
-    <div>
-      {following && !hasError && <p> You are already tracking the ticker from the date {trackeDate}</p>}
-      {(stockPriceErrorQuery || tickerErrorQuery) ? (
-        <ErrorHandling error={stockPriceErrorQuery || tickerErrorQuery} /> 
-      ) : (
-        isLoading ? (
-          <Loading/>
-        ) : (
-          stockPriceInfo &&  tickerInfo && !hasError ? (
-          <div>
-              <StockPriceInfo
-              stockPriceInfo={stockPriceInfo}
-              selectedDate={selectedDate}
-              />
-              <TickerInfo tickerInfo={tickerInfo} />
-          </div>
-          ) : (
-            <ErrorHandling error={null} />
-          )
-        )
-      )}
+    <div className='flex justify-between items-center'>
+      <h2 className='font-bold text-size22'>Ticker information</h2>
+      <Link to="/"
+        className="base-btn m-2"
+        >
+        Back to Main
+      </Link>
     </div>
-  </div>
-);
+      <TickerInput
+        tickerInput={tickerInput}
+        selectedDate={selectedDate}
+        onInputChange={handleInputChange}
+        onGetTickerInfo={handleGetTickerInfo}
+      />
+      <div>
+        {following && !hasError && <p> You are already tracking the ticker from the date {trackeDate}</p>}
+        {(stockPriceErrorQuery || tickerErrorQuery) ? (
+          <ErrorHandling error={stockPriceErrorQuery || tickerErrorQuery} /> 
+        ) : (
+          isLoading ? (
+            <Loading/>
+          ) : (
+            stockPriceInfo &&  tickerInfo && !hasError ? (
+            <div>
+                <StockPriceInfo
+                stockPriceInfo={stockPriceInfo}
+                selectedDate={selectedDate}
+                />
+                <TickerInfo tickerInfo={tickerInfo} />
+            </div>
+            ) : (
+              <ErrorHandling error={null} />
+            )
+          )
+        )}
+      </div>
+   </div>
+  );
 };
 
 export default AddStock;

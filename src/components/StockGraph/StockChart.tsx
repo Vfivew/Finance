@@ -53,7 +53,7 @@ const StockChart: FC<StockChartProps> = ({ data, previousDayStockPrice }) => {
 
     if (previousDayStockPrice === 0 || previousDayStockPrice === null) {
       datasets.push({
-        label: 'Stock graph',
+        label: 'Stock Graph',
         data: data,
         borderColor: 'rgba(0, 0, 255, 1)',
         borderWidth: 1,
@@ -84,7 +84,7 @@ const StockChart: FC<StockChartProps> = ({ data, previousDayStockPrice }) => {
         label: 'Previous Day Price',
         data: Array(data.length).fill(previousDayStockPrice),
         borderColor: 'rgba(0, 255, 251, 0.999)',
-        borderWidth: 6,
+        borderWidth: 2,
         fill: false,
       });
     }
@@ -105,7 +105,15 @@ const StockChart: FC<StockChartProps> = ({ data, previousDayStockPrice }) => {
               color: 'rgba(0, 255, 251, 0.2)',
             },
             ticks: {
-              color: 'blue', 
+              color: '#00DABC', 
+            },
+            title: {
+              display: true,
+              text: 'Price $', 
+              color: '#00DABC',
+              font: {
+              size: 18, 
+              },
             },
           },
           x: {
@@ -113,7 +121,15 @@ const StockChart: FC<StockChartProps> = ({ data, previousDayStockPrice }) => {
               color: 'rgba(0, 255, 251, 0.2)',
             },
             ticks: {
-              color: 'blue', 
+              color: '#00DABC', 
+            },
+            title: {
+              display: true,
+              text: 'Trading day', 
+              color: '#00DABC',
+              font: {
+              size: 18, 
+              },
             },
           },
         },
@@ -121,12 +137,10 @@ const StockChart: FC<StockChartProps> = ({ data, previousDayStockPrice }) => {
           title: {
             display: true,
             text: 'Stock graph',
-            color: 'blue',
+            color: '#00DABC',
           },
           legend: {
-            labels: {
-              color: 'blue',
-            },
+             display: false
           },
         },
         elements: {

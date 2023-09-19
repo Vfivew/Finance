@@ -1,9 +1,9 @@
 import { FC, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useGetStockPricesForDateQuery } from '../store/slice/apiSlice';
-import { getPreviousWeekday } from '../utils/getPreviousWeekday';
-import { calculateStartDate } from '../utils/calculateData';
-import { useAppSelector } from '../hooks/redux-hooks';
+import { useGetStockPricesForDateQuery } from '../../store/slice/apiSlice';
+import { getPreviousWeekday } from '../../utils/getPreviousWeekday';
+import { calculateStartDate } from '../../utils/calculateData';
+import { useAppSelector } from '../../hooks/redux-hooks';
 import StockChart from './StockChart';
 
 interface StockPriceItem {
@@ -28,18 +28,20 @@ const StockDetails: FC = () => {
 
   return (
     <div>
-      <h1>Детали акции</h1>
-      <p>Тикер: {ticker}</p>
-
+      <h2 className='font-bold text-size22 mb-2'>Stock Detail</h2>
+      <p>Ticker: {ticker}</p>
       <div>
-        <label>Выберите начальную дату:</label>
-        <input type="date" value={startDate} onChange={handleStartDateChange} />
+        <label>Select a start date:</label>
+        <input type="date"
+          value={startDate}
+          onChange={handleStartDateChange}
+          className="text-size14 text-black p-1 m-2 rounded border-2 border-fifth focus:outline-none focus:ring focus:border-blue-200"
+        />
       </div>
-
-      {stockPricesError && <p>Помилка при завантаженні цін акцій за останній рік. Повторіть запит через хвилину!.</p>}
+      {stockPricesError && <p>Error loading stock prices for the last year. Try again in a minute!</p>}
       {stockPrices && (
         <div>
-          <h2>Цены акций за последний год:</h2>
+          <h2>Share prices for the last year:</h2>
           <StockChart data={stockPrices.results.map((price: StockPriceItem) => price.c)} previousDayStockPrice={previousDayStockPrice} />
         </div>
       )}

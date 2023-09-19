@@ -26,7 +26,6 @@ const Login: FC = () => {
               token: token,
             })
           );
-      console.log('+')
           navigate('/');
         });
       })

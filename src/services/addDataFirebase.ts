@@ -23,7 +23,6 @@ const addDataFirebase = async ({ results, userEmail, selectedDate, stockPrice }:
         });
 
         if (existingTicker) {
-          console.log('Тикер уже отслеживается с', existingTicker.selectedDate);
           return { success: true, isFollowing: true, trackedDate: existingTicker.selectedDate };
         }
 
@@ -35,8 +34,6 @@ const addDataFirebase = async ({ results, userEmail, selectedDate, stockPrice }:
             stockPrice: stockPrice, 
           }),
         });
-
-        console.log('Тикер успешно добавлен для пользователя', userEmail);
 
         return { success: true, isFollowing: false, trackedDate: selectedDate };
       } else {
@@ -50,14 +47,9 @@ const addDataFirebase = async ({ results, userEmail, selectedDate, stockPrice }:
             },
           ],
         });
-
-        console.log('Тикер успешно добавлен для пользователя', userEmail);
-
         return { success: true, isFollowing: false, trackedDate: selectedDate };
       }
     } catch (error) {
-      console.error('Ошибка при добавлении тикера:', error);
-
       return { success: false, isFollowing: false, trackedDate: null };
     }
   }

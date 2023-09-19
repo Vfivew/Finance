@@ -9,13 +9,11 @@ const getDataFirebase = async (userEmail: string): Promise<Stock[]> => {
     if (userDocSnap.exists()) {
       const userData = userDocSnap.data();
       const tickers = userData?.tickers || [];
-
       return tickers;
     } else {
       return []; 
     }
   } catch (error) {
-    console.error('Error while receiving data from Firebase:', error);
     return []; 
   }
 };

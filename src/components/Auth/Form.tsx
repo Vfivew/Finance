@@ -65,7 +65,7 @@ const Form: FC<FormProps> = ({ title, isRegistrationPage, handleClick }) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
-            className="w-full p-2 mb-4 rounded border-2 border-fifth focus:outline-none focus:ring focus:border-blue-200"
+            className="w-full text-black p-2 mb-4 rounded border-2 border-fifth focus:outline-none focus:ring focus:border-blue-200"
             autoComplete="current-email"
           />
           <p>Password</p>
@@ -74,7 +74,7 @@ const Form: FC<FormProps> = ({ title, isRegistrationPage, handleClick }) => {
             value={pass}
             onChange={handlePasswordChange}
             placeholder="Password"
-            className="w-full p-2 mb-4 rounded border-2 border-fifth focus:outline-none focus:ring focus:border-blue-200"
+            className="w-full text-black p-2 mb-4 rounded border-2 border-fifth focus:outline-none focus:ring focus:border-blue-200"
             autoComplete="current-password"
           />
           {isRegistrationPage && (
@@ -84,10 +84,10 @@ const Form: FC<FormProps> = ({ title, isRegistrationPage, handleClick }) => {
                 value={confirmPass}
                 onChange={handleConfirmPasswordChange}
                 placeholder="Confirm Password"
-                className="w-full p-2 mb-4 rounded border-2 border-fifth focus:outline-none focus:ring focus:border-blue-200"
+                className="w-full text-black p-2 mb-4 rounded border-2 border-fifth focus:outline-none focus:ring focus:border-blue-200"
                 autoComplete="current-password"
               />
-              {error && <p className="text-red-600">{error}</p>}
+              {error && <p className="text-red-600 mb-4">{error}</p>}
             </>
           )}
           <div className='flex items-center justify-center space-x-4'>

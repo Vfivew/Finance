@@ -9,9 +9,23 @@ const TickerInput: React.FC<TickerInputProps> = ({ tickerInput, selectedDate, on
   return (
     <div>
       <label>Enter the ticker name </label>
-      <input type="text" value={tickerInput} onChange={onInputChange} />
-      <input type="date" value={selectedDate} onChange={onInputChange} />
-      <button onClick={onGetTickerInfo}>Click to follow</button>
+      <input
+        type="text"
+        value={tickerInput}
+        onChange={onInputChange}
+        className="text-size14 text-black p-1 m-4 rounded border-2 border-fifth focus:outline-none focus:ring focus:border-blue-200"
+      />
+      <input
+        type="date"
+        value={selectedDate}
+        onChange={onInputChange}
+        lang="en"
+        className="text-size14 text-black p-1 m-4 rounded border-2 border-fifth focus:outline-none focus:ring focus:border-blue-200"
+      />
+      <button
+        onClick={onGetTickerInfo}
+        className="base-btn">
+        Click to follow</button>
     </div>
   );
 };

@@ -12,6 +12,7 @@ const ErrorHandling: React.FC<ErrorHandlingProps> = ({ error }) => {
   if (error.status === 429) {
     return <p>Error: Too many requests. Please try again later.</p>;
   }
+  
   return <p>Error. Maybe this ticker does not exist</p>;
 };
 
