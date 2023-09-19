@@ -1,3 +1,8 @@
+Hello. Before you attempt to find bugs in the pet project, I want to inform you that the number of API requests is limited (5 requests per minute). Therefore, I will notify you in various ways within the application, and I will also automatically update the data every 60 seconds. You may indeed encounter limitations, but most likely, you'll just need to wait for 60 seconds before adding stocks to your list or opening charts for different dates. As soon as I have an extra $29.99 on hand, I will focus on refactoring the code and making it more functional. Plans include: 1) Requests for prices every 5 minutes 2) Adding news about stocks with significant price changes 3) Overall portfolio charts 4) Portfolio analysis by stock categories.
+
+Вітаю. Перш ніж ви спробуйте знайти баги в пет-проекті, я хочу Вас попередити, що кількість запитів на АРІ обмежена (5 запитів у хвилину). Тому я різними способами буду Вас повідомляти про це у додатку, а також автоматично обновлювати дані кожні 60 секунд. Можливо ви дійсно зможете щось поламати, та скоріше за все, Вам просто потрібно зачекати 60 секунд, перш ніж додавати акції у свій список, або відкривати графіки по різним датам. 
+Як тілкьи в мене буде зайвих 29.99$ на місцяь, я проведу рефакторинг коду, та зроблю його більш функціональним.  В планах: 1) Запити по цінам кожних 5 хвилин 2) Додавання новин про тікер, при високих скачках цін на нього 3) Загальні графіки щодо усього портфелю 4) Аналіз портфелю за категоріями тікерів.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
