@@ -46,7 +46,6 @@ const AddStock: FC = () => {
       setIsLoading(true);
       addDataFirebase({ results: tickerInfo.results, userEmail, selectedDate, stockPrice: stockPriceInfo.results[0].c })
         .then((result) => {
-          console.log({ results: tickerInfo.results, userEmail, selectedDate, stockPrice: stockPriceInfo.results[0].c });
           if (result.success) {
             setIsFollowing(result.isFollowing);
             setTrackedDate(result.trackedDate);

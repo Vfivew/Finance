@@ -25,7 +25,11 @@ const TickerInput: React.FC<TickerInputProps> = ({ tickerInput, selectedDate, on
       <button
         onClick={onGetTickerInfo}
         className="base-btn">
-        Click to follow</button>
+        Click to follow
+      </button>
+      <span className="m-2">
+        Consider the maximum possible range - 2 years!
+      </span>
     </div>
   );
 };
