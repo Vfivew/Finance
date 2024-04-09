@@ -1,9 +1,9 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 const apiKey = process.env.REACT_APP_POLYGON;
 
 const api = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://api.polygon.io' }),
+  baseQuery: fetchBaseQuery({ baseUrl: "https://api.polygon.io" }),
   endpoints: (builder) => ({
     getTickerInfo: builder.query({
       query: (ticker) => `/vX/reference/tickers/${ticker}?apiKey=${apiKey}`,
@@ -15,5 +15,5 @@ const api = createApi({
   }),
 });
 
-export const { useGetTickerInfoQuery, useGetStockPricesForDateQuery  } = api;
-export { api, apiKey }
+export const { useGetTickerInfoQuery, useGetStockPricesForDateQuery } = api;
+export { api, apiKey };

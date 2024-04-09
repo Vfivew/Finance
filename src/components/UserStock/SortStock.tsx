@@ -1,5 +1,5 @@
-import { FC, useState } from 'react';
-import { useAppDispatch } from '../../hooks/redux-hooks';
+import { FC, useState } from "react";
+import { useAppDispatch } from "../../hooks/redux-hooks";
 import {
   sortTickersByNameAscending,
   sortTickersByNameDescending,
@@ -11,44 +11,44 @@ import {
   sortTickersByTodayPriceDescending,
   sortTickersByProfitAscending,
   sortTickersByProfitDescending,
-} from '../../store/slice/tickersSlice';
+} from "../../store/slice/tickersSlice";
 
 const SortStock: FC = () => {
   const dispatch = useAppDispatch();
-  const [sortOption, setSortOption] = useState('');
+  const [sortOption, setSortOption] = useState("");
 
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSortOption(event.target.value);
 
     switch (event.target.value) {
-      case 'name-asc':
+      case "name-asc":
         dispatch(sortTickersByNameAscending());
         break;
-      case 'name-desc':
+      case "name-desc":
         dispatch(sortTickersByNameDescending());
         break;
-      case 'date-asc':
+      case "date-asc":
         dispatch(sortTickersByDateAscending());
         break;
-      case 'date-desc':
+      case "date-desc":
         dispatch(sortTickersByDateDescending());
         break;
-      case 'price-asc':
+      case "price-asc":
         dispatch(sortTickersByPriceAscending());
         break;
-      case 'price-desc':
+      case "price-desc":
         dispatch(sortTickersByPriceDescending());
         break;
-      case 'today-price-asc':
+      case "today-price-asc":
         dispatch(sortTickersByTodayPriceAscending());
         break;
-      case 'today-price-desc':
+      case "today-price-desc":
         dispatch(sortTickersByTodayPriceDescending());
         break;
-    case 'profit-asc':
+      case "profit-asc":
         dispatch(sortTickersByProfitAscending());
         break;
-      case 'profit-desc':
+      case "profit-desc":
         dispatch(sortTickersByProfitDescending());
         break;
       default:
@@ -57,7 +57,11 @@ const SortStock: FC = () => {
   };
 
   return (
-    <select className="text-black mt-2" value={sortOption} onChange={handleSortChange}>
+    <select
+      className="text-black mt-2"
+      value={sortOption}
+      onChange={handleSortChange}
+    >
       <option value="name-asc">Name Ascending</option>
       <option value="name-desc">Name Descending</option>
       <option value="date-asc">Date Ascending</option>

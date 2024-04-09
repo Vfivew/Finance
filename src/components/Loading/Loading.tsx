@@ -1,10 +1,10 @@
-import './Loading.css'
+import "./Loading.css";
 
 const Loading = () => {
   return (
-  <>
-    <div className="wobbling-3"></div>
-  </>
+    <>
+      <div className="wobbling-3"></div>
+    </>
   );
 };
 

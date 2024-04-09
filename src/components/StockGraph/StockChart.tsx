@@ -1,6 +1,7 @@
 import {FC, useEffect, useRef } from 'react';
 import { Chart, CategoryScale, LinearScale, LineController, PointElement, Title, Tooltip } from 'chart.js/auto';
 import 'chartjs-plugin-annotation';
+
 Chart.register(CategoryScale, LinearScale, LineController, PointElement, Title, Tooltip);
 
 interface StockChartProps {
@@ -10,7 +11,7 @@ interface StockChartProps {
 
 const StockChart: FC<StockChartProps> = ({ data, previousDayStockPrice }) => {
   const chartRef = useRef<Chart | null>(null);
-  
+
   useEffect(() => {
     if (!data) return;
     if (chartRef.current) {
@@ -65,7 +66,7 @@ const StockChart: FC<StockChartProps> = ({ data, previousDayStockPrice }) => {
         {
           label: 'Price',
           data: dataBefore,
-          borderColor: 'rgba(255, 0, 0, 1)', 
+          borderColor: 'rgba(255, 0, 0, 1)',
           borderWidth: 1,
           fill: false,
         },
@@ -105,14 +106,14 @@ const StockChart: FC<StockChartProps> = ({ data, previousDayStockPrice }) => {
               color: 'rgba(0, 255, 251, 0.2)',
             },
             ticks: {
-              color: '#00DABC', 
+              color: '#00DABC',
             },
             title: {
               display: true,
-              text: 'Price $', 
+              text: 'Price $',
               color: '#00DABC',
               font: {
-              size: 18, 
+              size: 18,
               },
             },
           },
@@ -121,14 +122,14 @@ const StockChart: FC<StockChartProps> = ({ data, previousDayStockPrice }) => {
               color: 'rgba(0, 255, 251, 0.2)',
             },
             ticks: {
-              color: '#00DABC', 
+              color: '#00DABC',
             },
             title: {
               display: true,
-              text: 'Trading day', 
+              text: 'Trading day',
               color: '#00DABC',
               font: {
-              size: 18, 
+              size: 18,
               },
             },
           },

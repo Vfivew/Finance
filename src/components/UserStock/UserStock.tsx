@@ -1,21 +1,25 @@
-import { FC,useState, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import { getDataFirebase } from '../../services/getDataFirebase';
-import { deleteDataFirebase } from '../../services/deleteDataFirebase';
-import { setTickers, updatePreviousDayStockPrice, removeTicker } from '../../store/slice/tickersSlice';
-import { getStockPriceForPreviousWorkday } from '../../utils/getStockPriceForPreviousWorkday';
-import { getPreviousWeekday } from '../../utils/getPreviousWeekday';
-import { Link } from 'react-router-dom';
-import { Stock } from '../../models/Stock';
+import { FC, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
-import ProfitOrLoss from './ProfitOrLoss';
-import SortStock from './SortStock';
-import Loading from '../Loading/Loading';
-import Timer from './Timer'
+import { useAppDispatch, useAppSelector } from "../../hooks/redux-hooks";
+import { getDataFirebase } from "../../services/getDataFirebase";
+import { deleteDataFirebase } from "../../services/deleteDataFirebase";
+import {
+  setTickers,
+  updatePreviousDayStockPrice,
+  removeTicker,
+} from "../../store/slice/tickersSlice";
+import { getStockPriceForPreviousWorkday } from "../../utils/getStockPriceForPreviousWorkday";
+import { getPreviousWeekday } from "../../utils/getPreviousWeekday";
+import { Stock } from "../../models/Stock";
+import ProfitOrLoss from "./ProfitOrLoss";
+import SortStock from "./SortStock";
+import Loading from "../Loading/Loading";
+import Timer from "./Timer";
 
 const UserStock: FC = () => {
   const [isRemoving, setIsRemoving] = useState(false);
-  const [loading, setIsLoading] = useState(false)
+  const [loading, setIsLoading] = useState(false);
   const userEmail = useAppSelector((state) => state.user.email) as string;
   const tickers = useAppSelector((state) => state.tickers);
   const dispatch = useAppDispatch();
@@ -26,18 +30,16 @@ const UserStock: FC = () => {
     async function fetchData() {
       try {
         if (!isDataLoaded) {
-          setIsLoading(true)
+          setIsLoading(true);
           const tickersData = await getDataFirebase(userEmail);
           if (tickersData.length === 0) {
-            setIsLoading(false)
+            setIsLoading(false);
             return;
           }
-          setIsLoading(false)
+          setIsLoading(false);
           const stockPricePromises = tickersData.map(async (ticker) => {
-            const StockPriceForPreviousWorkday = await getStockPriceForPreviousWorkday(
-              ticker.ticker,
-              lastData
-            );
+            const StockPriceForPreviousWorkday =
+              await getStockPriceForPreviousWorkday(ticker.ticker, lastData);
             if (StockPriceForPreviousWorkday !== null) {
               dispatch(
                 updatePreviousDayStockPrice({
@@ -45,12 +47,11 @@ const UserStock: FC = () => {
                   previousDayStockPrice: StockPriceForPreviousWorkday,
                 })
               );
-            } else {
-              //тут обробляв помилку, зараз прибрав
             }
             return {
               ...ticker,
-              previousDayStockPrice: StockPriceForPreviousWorkday || ticker.previousDayStockPrice,
+              previousDayStockPrice:
+                StockPriceForPreviousWorkday || ticker.previousDayStockPrice,
             };
           });
 
@@ -59,7 +60,7 @@ const UserStock: FC = () => {
           dispatch(setTickers(updatedTickersData));
         }
       } catch (error) {
-        console.error('Помилка при завантажені даних з Firebase:', error);
+        console.error("Помилка при завантажені даних з Firebase:", error);
       }
     }
 
@@ -75,11 +76,9 @@ const UserStock: FC = () => {
 
   const updatePreviousDayPrices = async () => {
     for (const ticker of tickers) {
-      if (typeof ticker.previousDayStockPrice === 'undefined') {
-        const StockPriceForPreviousWorkday = await getStockPriceForPreviousWorkday(
-          ticker.ticker,
-          lastData
-        );
+      if (typeof ticker.previousDayStockPrice === "undefined") {
+        const StockPriceForPreviousWorkday =
+          await getStockPriceForPreviousWorkday(ticker.ticker, lastData);
         if (StockPriceForPreviousWorkday !== null) {
           dispatch(
             updatePreviousDayStockPrice({
@@ -107,17 +106,21 @@ const UserStock: FC = () => {
   return (
     <section>
       <Timer initialSeconds={60} />
-      <SortStock/>
-      <h1 className='font-bold text-size22 mt-2 mb-4'>Information about tickers</h1>
+      <SortStock />
+      <h1 className="font-bold text-size22 mt-2 mb-4">
+        Information about tickers
+      </h1>
       <div className="overflow-x-auto">
-        <table className='table-fixed w-full'>
+        <table className="table-fixed w-full">
           <thead>
             <tr>
               <th className="w-10% border border-white">Name</th>
               <th className="w-10% border border-white">Ticker</th>
               <th className="w-10% border border-white">Date</th>
               <th className="w-10% border border-white">Share price</th>
-              <th className="w-40% border border-white">The closing price of the last trading day</th>
+              <th className="w-40% border border-white">
+                The closing price of the last trading day
+              </th>
               <th className="w-10% border border-white">Profit</th>
               <th className="w-10% border border-white">Actions</th>
             </tr>
@@ -132,19 +135,45 @@ const UserStock: FC = () => {
             ) : (
               tickers.map((ticker, index) => (
                 <tr key={index}>
-                  <td className="border border-white py-2 h-20  hover:text-first focus:text-first"><Link to={`/stock/${ticker.ticker}`}>{ticker.name}</Link></td>
-                  <td className="border border-white py-2 h-20 ">{ticker.ticker}</td>
-                  <td className="border border-white py-2 h-20 ">{ticker.selectedDate}</td>
-                  <td className="border border-white py-2 h-20 ">{ticker.stockPrice}$</td>
-                  <td className="border border-white py-2 h-20 ">{ticker.previousDayStockPrice}$</td>
-                  <td className={`border border-white py-2 h-20 ${isRemoving ? 'text-gray-500' : ''}`}>
-                    <ProfitOrLoss purchasePrice={ticker.stockPrice} currentPrice={ticker.previousDayStockPrice} />
+                  <td className="border border-white p-2 h-20 hover:text-first focus:text-first transition-colors duration-300">
+                    <Link to={`/stock/${ticker.ticker}`}>
+                      <p className="base-btn p-2">{ticker.name}</p>
+                    </Link>
+                  </td>
+                  <td className="border border-white py-2 h-20 ">
+                    {ticker.ticker}
+                  </td>
+                  <td className="border border-white py-2 h-20 ">
+                    {ticker.selectedDate}
+                  </td>
+                  <td className="border border-white py-2 h-20 ">
+                    {ticker.stockPrice}$
+                  </td>
+                  <td className="border border-white py-2 h-20 ">
+                    {ticker.previousDayStockPrice}$
+                  </td>
+                  <td
+                    className={`border border-white py-2 h-20 ${
+                      isRemoving ? "text-gray-500" : ""
+                    }`}
+                  >
+                    <ProfitOrLoss
+                      purchasePrice={ticker.stockPrice}
+                      currentPrice={ticker.previousDayStockPrice}
+                    />
                   </td>
                   <td className="border border-white py-2 h-20 ">
                     {isRemoving ? (
-                      <span><Loading /></span>
+                      <span>
+                        <Loading />
+                      </span>
                     ) : (
-                      <button onClick={() => handleRemoveTicker(ticker)}>Stop following</button>
+                      <button
+                        className="base-btn"
+                        onClick={() => handleRemoveTicker(ticker)}
+                      >
+                        Stop following
+                      </button>
                     )}
                   </td>
                 </tr>

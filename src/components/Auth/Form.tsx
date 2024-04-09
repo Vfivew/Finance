@@ -1,5 +1,4 @@
-import React, { FC, useState } from 'react';
-import ResetPasswordForm from './ResetPasswordForm'
+import { FC, useState } from 'react';
 
 interface FormProps {
   title: string;
@@ -12,15 +11,6 @@ const Form: FC<FormProps> = ({ title, isRegistrationPage, handleClick }) => {
   const [pass, setPass] = useState('');
   const [confirmPass, setConfirmPass] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const [resetPassword, setResetPassword] = useState(false);
-
-  const handleResetPasswordClick = () => {
-    setResetPassword(true);
-  };
-
-  const handleResetPasswordCancel = () => {
-    setResetPassword(false);
-  };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPassword = e.target.value;
@@ -54,59 +44,57 @@ const Form: FC<FormProps> = ({ title, isRegistrationPage, handleClick }) => {
   };
 
   return (
-    <div className='flex items-center justify-center'>
-      {resetPassword ? (
-        <ResetPasswordForm onResetPassword={handleResetPasswordCancel} />
-      ) : (
-        <form onSubmit={handleSubmit} className="bg-thirty py-10 px-8 pb-10 rounded-xl shadow-md border border-white">
-          <p>Login</p>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Email"
-            className="w-full text-black p-2 mb-4 rounded border-2 border-fifth focus:outline-none focus:ring focus:border-blue-200"
-            autoComplete="current-email"
-          />
-          <p>Password</p>
-          <input
-            type="password"
-            value={pass}
-            onChange={handlePasswordChange}
-            placeholder="Password"
-            className="w-full text-black p-2 mb-4 rounded border-2 border-fifth focus:outline-none focus:ring focus:border-blue-200"
-            autoComplete="current-password"
-          />
-          {isRegistrationPage && (
-            <>
-              <input
-                type="password"
-                value={confirmPass}
-                onChange={handleConfirmPasswordChange}
-                placeholder="Confirm Password"
-                className="w-full text-black p-2 mb-4 rounded border-2 border-fifth focus:outline-none focus:ring focus:border-blue-200"
-                autoComplete="current-password"
-              />
-              {error && <p className="text-red-600 mb-4">{error}</p>}
-            </>
-          )}
-          <div className='flex items-center justify-center space-x-4'>
-            <button
-              type="submit"
-              disabled={isRegistrationPage && pass !== confirmPass}
-              className="base-btn"
-            >
-              {title}
-            </button>
-            <button
-              onClick={handleResetPasswordClick}
-              className="base-btn"
-            >
-              Forgot password?
-            </button>
-          </div>
-        </form>
-      )}
+    <div className="flex items-center justify-center">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-thirty py-10 px-8 pb-10 rounded-xl shadow-md border border-white"
+      >
+        <p>Login</p>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Email"
+          className="w-full text-black p-2 mb-4 rounded border-2 border-fifth focus:outline-none focus:ring focus:border-blue-200"
+          autoComplete="current-email"
+        />
+        <p>Password</p>
+        <input
+          type="password"
+          value={pass}
+          onChange={handlePasswordChange}
+          placeholder="Password"
+          className="w-full text-black p-2 mb-4 rounded border-2 border-fifth focus:outline-none focus:ring focus:border-blue-200"
+          autoComplete="current-password"
+        />
+        {isRegistrationPage && (
+          <>
+            <input
+              type="password"
+              value={confirmPass}
+              onChange={handleConfirmPasswordChange}
+              placeholder="Confirm Password"
+              className="w-full text-black p-2 mb-4 rounded border-2 border-fifth focus:outline-none focus:ring focus:border-blue-200"
+              autoComplete="current-password"
+            />
+            {error && (
+              <p className="text-red-200 mt-4 font-bold text-center mb-4">
+                {error}
+              </p>
+            )}
+          </>
+        )}
+        <div className="flex items-center justify-center space-x-4">
+          <button
+            type="submit"
+            disabled={isRegistrationPage && pass !== confirmPass}
+            className="base-btn"
+          >
+            {title}
+          </button>
+          <button className="base-btn">Forgot password?</button>
+        </div>
+      </form>
     </div>
   );
 };

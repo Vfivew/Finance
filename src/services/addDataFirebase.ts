@@ -1,5 +1,5 @@
-import { doc, setDoc, updateDoc, arrayUnion, getDoc } from 'firebase/firestore';
-import { database } from '../firebase';
+import { doc, setDoc, updateDoc, arrayUnion, getDoc } from "firebase/firestore";
+import { database } from "../firebase";
 
 interface TickerData {
   results: any;
@@ -8,10 +8,15 @@ interface TickerData {
   stockPrice: number;
 }
 
-const addDataFirebase = async ({ results, userEmail, selectedDate, stockPrice }: TickerData) => {
+const addDataFirebase = async ({
+  results,
+  userEmail,
+  selectedDate,
+  stockPrice,
+}: TickerData) => {
   if (results && userEmail) {
     try {
-      const userDocRef = doc(database, 'Finance', userEmail);
+      const userDocRef = doc(database, "Finance", userEmail);
       const userDocSnap = await getDoc(userDocRef);
 
       if (userDocSnap.exists()) {
@@ -23,7 +28,11 @@ const addDataFirebase = async ({ results, userEmail, selectedDate, stockPrice }:
         });
 
         if (existingTicker) {
-          return { success: true, isFollowing: true, trackedDate: existingTicker.selectedDate };
+          return {
+            success: true,
+            isFollowing: true,
+            trackedDate: existingTicker.selectedDate,
+          };
         }
 
         await updateDoc(userDocRef, {
@@ -31,7 +40,7 @@ const addDataFirebase = async ({ results, userEmail, selectedDate, stockPrice }:
             ticker: results.ticker,
             name: results.name,
             selectedDate: selectedDate,
-            stockPrice: stockPrice, 
+            stockPrice: stockPrice,
           }),
         });
 

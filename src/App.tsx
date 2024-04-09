@@ -6,6 +6,7 @@ import RegisterPage from './pages/RegisterPage';
 import AddStock from './components/AddStock/AddStock';
 import StockDetails from './components/StockGraph/StockDetails'
 import ErrorPage from './pages/ErrorPage/ErrorPage';
+import ResetPasswordPage from './pages/ResetPassword';
 
 function PrivateRoute({ element }: any) {
   const { isAuth } = useAuth();
@@ -19,14 +20,15 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
-      <Route path='*' element={<ErrorPage/>} />
+      <Route path="/resetpassword" element={<ResetPasswordPage />} />
+      <Route path="*" element={<ErrorPage />} />
       <Route
         path="/addstock"
-        element={<PrivateRoute element={<AddStock />} />} 
+        element={<PrivateRoute element={<AddStock />} />}
       />
       <Route
         path="/stock/:ticker"
-        element={<PrivateRoute element={<StockDetails/>} />} 
+        element={<PrivateRoute element={<StockDetails />} />}
       />
     </Routes>
   );
