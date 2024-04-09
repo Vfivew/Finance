@@ -3,5 +3,5 @@ export interface Stock {
   selectedDate: string;
   stockPrice: number;
   ticker: string;
-  previousDayStockPrice?: any; 
+  previousDayStockPrice?: any;
 }

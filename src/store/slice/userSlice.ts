@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface UserState {
   email: string | null;
@@ -13,24 +13,24 @@ const initialState: UserState = {
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
     setUser(state, action: PayloadAction<UserState>) {
       state.email = action.payload.email;
       state.token = action.payload.token;
       state.id = action.payload.id;
-      localStorage.setItem('userEmail', action.payload.email || '');
-      localStorage.setItem('userToken', action.payload.token || '');
-      localStorage.setItem('userId', action.payload.id || '');
+      localStorage.setItem("userEmail", action.payload.email || "");
+      localStorage.setItem("userToken", action.payload.token || "");
+      localStorage.setItem("userId", action.payload.id || "");
     },
     removeUser(state) {
       state.email = null;
       state.token = null;
       state.id = null;
-      localStorage.removeItem('userEmail');
-      localStorage.removeItem('userToken');
-      localStorage.removeItem('userId');
+      localStorage.removeItem("userEmail");
+      localStorage.removeItem("userToken");
+      localStorage.removeItem("userId");
     },
   },
 });

@@ -5,7 +5,12 @@ interface TickerInputProps {
   onGetTickerInfo: () => void;
 }
 
-const TickerInput: React.FC<TickerInputProps> = ({ tickerInput, selectedDate, onInputChange, onGetTickerInfo }) => {
+const TickerInput: React.FC<TickerInputProps> = ({
+  tickerInput,
+  selectedDate,
+  onInputChange,
+  onGetTickerInfo,
+}) => {
   return (
     <div>
       <label>Enter the ticker name </label>
@@ -22,9 +27,7 @@ const TickerInput: React.FC<TickerInputProps> = ({ tickerInput, selectedDate, on
         lang="en"
         className="text-size14 text-black p-1 m-4 rounded border-2 border-fifth focus:outline-none focus:ring focus:border-blue-200"
       />
-      <button
-        onClick={onGetTickerInfo}
-        className="base-btn">
+      <button onClick={onGetTickerInfo} className="base-btn">
         Click to follow
       </button>
       <span className="m-2">

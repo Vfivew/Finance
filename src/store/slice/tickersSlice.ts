@@ -1,10 +1,11 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Stock } from '../../models/Stock';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
+import { Stock } from "../../models/Stock";
 
 const initialState: Stock[] = [];
 
 const tickersSlice = createSlice({
-  name: 'tickers',
+  name: "tickers",
   initialState,
   reducers: {
     setTickers: (state, action: PayloadAction<Stock[]>) => {
@@ -32,7 +33,7 @@ const tickersSlice = createSlice({
     },
     sortTickersByNameAscending: (state) => {
       state.sort((a, b) => a.name.localeCompare(b.name));
-      console.log(state)
+      console.log(state);
     },
     sortTickersByNameDescending: (state) => {
       state.sort((a, b) => b.name.localeCompare(a.name));
@@ -72,7 +73,8 @@ const tickersSlice = createSlice({
   },
 });
 
-export const { sortTickersByNameAscending,
+export const {
+  sortTickersByNameAscending,
   sortTickersByNameDescending,
   sortTickersByDateAscending,
   sortTickersByDateDescending,
@@ -82,6 +84,11 @@ export const { sortTickersByNameAscending,
   sortTickersByTodayPriceDescending,
   sortTickersByProfitAscending,
   sortTickersByProfitDescending,
-  setTickers, resetTicker, addTicker, updatePreviousDayStockPrice, removeTicker } = tickersSlice.actions;
+  setTickers,
+  resetTicker,
+  addTicker,
+  updatePreviousDayStockPrice,
+  removeTicker,
+} = tickersSlice.actions;
 
 export default tickersSlice.reducer;
